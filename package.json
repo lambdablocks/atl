@@ -1,0 +1,31 @@
+{
+  "name": "atl",
+  "version": "1.0.0",
+  "description": "ATL Programming Environment",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "dev": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/vic/atl"
+  },
+  "keywords": [
+    "atl",
+    "programming"
+  ],
+  "author": "Victor Hugo Borja <vborja@apache.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@cycle/core": "^3.1.0",
+    "@cycle/dom": "^5.3.0",
+    "ramda": "^0.17.1",
+    "rx": "^3.1.2",
+    "seamless-immutable": "^3.0.0",
+    "snapsvg": "^0.4.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.8.0"
+  }
+}

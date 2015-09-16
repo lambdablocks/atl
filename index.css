@@ -1,0 +1,14 @@
+html, body {
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+[atl-canvas] {
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(200,200,200,1);
+}
