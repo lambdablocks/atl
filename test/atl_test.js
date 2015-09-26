@@ -1,8 +1,13 @@
 import _ from 'lodash';
 import {assert} from 'chai';
-import atl from '../src/atl';
+import Atl from '../src/atl';
 
 describe('atl', function () {
+  
+  var atl;
+  beforeEach(function() {
+    atl = Atl();
+  });
 
   it('creates a one input gate', function (done) {
     const double = atl({
@@ -63,6 +68,19 @@ describe('atl', function () {
     .c(_.bind(assert.equal, assert, 13))
     .a(2)
     .b(3);
-  })
+  });
+
+
+  it('can define a gate to a name', function (done) {
+    atl.def('double', {
+      in: ['a'],
+      out: ['b'],
+      do: function () { this.b = this.a * 2; }
+    });
+
+    atl('double')(done)
+    .b(_.bind(assert.equal, assert, 6))
+    .a(3);
+  });
 
 });

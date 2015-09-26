@@ -1,7 +1,7 @@
 import _  from 'lodash'
 import Rx from 'rx'
 
-function atlCreate (spec) {
+function atlCreate (env, spec) {
   var join;
   var ports = {};
 
@@ -25,7 +25,7 @@ function atlCreate (spec) {
     var inner = _.extend({}, ports);
 
     var joins = _.reduce(spec.inner, (acc, innerSpec, innerName) => {
-      var atl = atlResolve(innerSpec);
+      var atl = env.resolve(innerSpec);
       inner[innerName] = atl.ports;
       return atl.join.forEach(function () {});
     }, []);
@@ -46,17 +46,23 @@ function atlCreate (spec) {
     apply(wires[0], [].concat(wires.slice(1), function() {}));
   }
 
-  return {join, ports};
+  return {join, ports, spec};
 }
 
-function atlResolve(spec) {
+function atlResolve(env, spec) {
   if (typeof spec === 'object') {
-    return atlCreate(spec);
+    return env.create(spec);
+  } else if (env.names[spec]) {
+    return env.names[spec];
   }
 }
 
-function atl(spec) {
-  var {join, ports} = atlResolve(spec);
+function atlDef(env, name, spec) {
+  return env.names[name] = env.resolve(spec);
+}
+
+function atlGate(env, spec) {
+  var {join, ports, spec} = env.resolve(spec);
 
   function gate(forEach) {
     join.forEach(forEach);
@@ -69,4 +75,15 @@ function atl(spec) {
   return gate;
 }
 
-export default atl;
+function atlEnv(env) {
+  env.gate = _.bind(atlGate, null, env);
+  env.resolve = _.bind(atlResolve, null, env);
+  env.create = _.bind(atlCreate, null, env);
+  env.gate.def = _.bind(atlDef, null, env);
+  return env;
+}
+
+export default function atl() {
+  return atlEnv({names: {}}).gate;
+}
+
