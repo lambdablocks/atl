@@ -92,6 +92,28 @@ describe('atl', function () {
     assert.ok(atl('double'));
     assert.notOk(Atl()('double'), 'should not be present on other env');
     done();
-  })
+  });
+
+  it('can wire predefined gates', function (done) {
+    atl.def('double', {
+      in: ['a'],
+      out: ['b'],
+      do: function () { this.b = this.a * 2; }
+    });
+
+    var pass = atl({
+      in: ['a'],
+      out: ['b'],
+      inner: { x: 'double' },
+      wire: [
+        {from: 'a', to: 'x.a'},
+        {from: 'x.b', to: 'b'}
+      ]
+    });
+
+    pass(done)
+    .b(_.bind(assert.equal, assert, 10))
+    .a(5);
+  });
 
 });
