@@ -62,7 +62,9 @@ function atlDef(env, name, spec) {
 }
 
 function atlGate(env, spec) {
-  var {join, ports, spec} = env.resolve(spec);
+  var ref = env.resolve(spec);
+  if (!ref) { return; }
+  var {join, ports, spec} = ref;
 
   function gate(forEach) {
     join.forEach(forEach);

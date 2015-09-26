@@ -3,7 +3,7 @@ import {assert} from 'chai';
 import Atl from '../src/atl';
 
 describe('atl', function () {
-  
+
   var atl;
   beforeEach(function() {
     atl = Atl();
@@ -82,5 +82,16 @@ describe('atl', function () {
     .b(_.bind(assert.equal, assert, 6))
     .a(3);
   });
+
+  it('has names isolated per Atl instance', function (done) {
+    atl.def('double', {
+      in: ['a'],
+      out: ['b'],
+      do: function () { this.b = this.a * 2; }
+    });
+    assert.ok(atl('double'));
+    assert.notOk(Atl()('double'), 'should not be present on other env');
+    done();
+  })
 
 });
