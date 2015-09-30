@@ -27,7 +27,7 @@
     "babel": "^5.8.23",
     "babelify": "^6.3.0",
     "chai": "^3.3.0",
-    "http-server": "^0.8.0",
+    "http-server": "^0.8.5",
     "mocha": "^2.3.3",
     "watchify": "^3.4.0"
   }

@@ -116,4 +116,62 @@ describe('atl', function () {
     .a(5);
   });
 
+  // Maybe(x) = None | Just(x)
+  // hacer un if con guards
+  // un array, cons?
+
+  it('can implement a sameWord component', function (done) {
+
+    atl.def('split', {
+      in: ['a'],
+      out: ['c'],
+      do: function () {
+        this.c = this.a.split();
+      }
+    });
+
+    atl.def('sort', {
+      in: ['a'],
+      out: ['b'],
+      do: function () {
+        this.b = this.a.sort();
+      }
+    });
+
+
+    atl.def('===', {
+      in: ['a', 'b'],
+      out: ['c'],
+      do: function () {
+        this.c = this.a === this.b;
+      }
+    });
+
+    var sameWord = atl({
+      in: ['a', 'b'],
+      out: ['c'],
+      inner: {
+        split1: 'split',
+        split2: 'split',
+        sort1: 'sort',
+        sort2: 'sort',
+        eq: '==='
+      },
+      wire: [
+        {from: 'a', to: 'split1.a'},
+        {from: 'b', to: 'split2.a'},
+        {from: 'split1.c', to: 'sort1.a'},
+        {from: 'split2.c', to: 'sort2.a'},
+        {from: 'sort1.b', to: 'eq.a'},
+        {from: 'sort2.b', to: 'eq.b'},
+        {from: 'eq.c', to: 'c'}
+      ]
+    });
+
+    sameWord(done)
+    .c(_.bind(assert.ok, assert))
+    .a('hola')
+    .b('hola');
+  });
+
 });
