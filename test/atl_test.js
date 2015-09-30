@@ -126,7 +126,7 @@ describe('atl', function () {
       in: ['a'],
       out: ['c'],
       do: function () {
-        this.c = this.a.split();
+        this.c = this.a.split(' ');
       }
     });
 
@@ -143,7 +143,7 @@ describe('atl', function () {
       in: ['a', 'b'],
       out: ['c'],
       do: function () {
-        this.c = this.a === this.b;
+        this.c = _.isEqual(this.a, this.b);
       }
     });
 
